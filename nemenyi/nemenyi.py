@@ -53,12 +53,6 @@ critDiff_10 = qAlpha10pct[ncol - 2] * critDiff
 
 ranks = np.mean(dataAsRanks, 0)
 
-print ('names=', end='')
-print (*data_formated.columns,sep=",")
-print ("ranks=",end="")
-print (*ranks, sep=",")
-print ("cd={}".format(critDiff_5))
-print ("width=7")
 
 writeTex(data_formated.columns,ranks,cd=critDiff_5,file_tex=output_file)
 #for i in range(ncol):
