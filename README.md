@@ -10,11 +10,11 @@ git clone https://github.com/gabrielj12/nemenyi.git
 
 ## Instructions
 
-The input file must be a .csv file, and the output is a .tex file. The [CRE|DEC] parameter is used to define if the data is crescent or decrescent. The last parameter is optional,
+The input file must be a .csv file, and the output is a .tex file. The [ASC|DEC] parameter is used to define if the data is ascending or descending. The last parameter is optional,
 if you want to skip the first column of the dataset, sometimes used for identification of the sample.
 
 ```bash
-python nemenyi.py input_file output_file [CRE|DEC] [skip]
+python nemenyi.py input_file output_file [ASC|DESC] [skip]
 ```
 
 ## Requirements
