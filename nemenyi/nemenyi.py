@@ -10,7 +10,7 @@ import os
 skip_first = False
 input_file = sys.argv[1]
 output_file = sys.argv[2]
-asc = (sys.argv[3] == "CRE")
+asc = (sys.argv[3] == "DEC")
 if(len(sys.argv) > 4):
     skip_first = True
 
