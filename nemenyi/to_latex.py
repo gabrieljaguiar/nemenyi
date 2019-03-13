@@ -1,8 +1,11 @@
-import numpy as np
 import math
+
+import numpy as np
+
 
 def normalize_by_width(ranks, width):
     return ([x * width / len(ranks) for x in ranks])
+
 
 def get_segments(ranks, cd):
     conected_points = []
@@ -37,7 +40,7 @@ def findInner(segments, ranks):
     return -1
 
 
-def writeTex(names, ranks, cd, width=7, file_tex="output.tex"):
+def writeTex(names, ranks, cd, output_file, width=7):
 
     names_sorted = [x for _, x in sorted(zip(ranks, names))]
     ranks_sorted = sorted(ranks)
@@ -46,7 +49,9 @@ def writeTex(names, ranks, cd, width=7, file_tex="output.tex"):
 
     ranks_normalized = normalize_by_width(ranks_sorted, width - 1)
 
-    lineFormat = "decorate,decoration={snake,amplitude=.4mm,segment length=1.5mm,post length=0mm}, very thick, color = black";
+    lineFormat = ('decorate,decoration={snake,amplitude=.4mm,'
+                  'segment length=1.5mm,post length=0mm},'
+                  'very thick, color = black')
 
     points = range(1, len(ranks) + 1)
     points = normalize_by_width(points, width - 1)
@@ -58,15 +63,24 @@ def writeTex(names, ranks, cd, width=7, file_tex="output.tex"):
     rightLabelPosition = margin + len(ranks) * (width - 1.) / len(ranks)
 
     text_script = "\\begin{figure} \\centering \\begin{tikzpicture}[xscale=2]\n"
-    text_script = text_script + "\\node (Label) at ({},0.7)".format(points[0] + normCd / 2.) + "{\\tiny{CD=" + "{}".format(cd) + "}}; % the label\n"
-    text_script = text_script + "\\draw[" + lineFormat + "] ({},0.5) -- ({},0.5);\n".format(points[0], points[0] + normCd)
-    text_script = text_script + "\\foreach \\x in {" + "{},{}".format(points[0], points[0] + normCd) + "} \\draw[thick,color = black] (\\x, 0.4) -- (\\x, 0.6);\n \n"
-    text_script = text_script + "\\draw[gray, thick]({},0) -- ({},0); \n".format(points[0], points[lastRank])
-    text_script = text_script + "\\foreach \\x in {"
-    text_script = text_script + ",".join(map(str, points)) + "} \\draw (\\x cm,1.5pt) -- (\\x cm, -1.5pt);\n"
+
+    text_script = text_script + ('\\node (Label) at ({}, 0.7)'
+                                 '{{\\tiny{{CD = {}}}; % the label\n'.format(points[0] + normCd / 2, cd))
+
+    text_script = text_script + ('\\draw[{}] ({},0.5) -- ({},0.5);\n'.format(lineFormat, points[0], points[0] + normCd))
+
+    text_script = text_script + ('\\foreach \\x in {{{}, {}}} \\'
+                                 'draw[thick,color = black] (\\x, 0.4)'
+                                 ' -- (\\x, 0.6);\n \n'.format(points[0], points[0] + normCd))
+
+    text_script = text_script + ('\\draw[gray, thick]({},0) -- ({},0); \n'.format(points[0], points[lastRank]))
+
+    point_names = ','.join(map(str, points))
+    text_script = text_script + ('\\foreach \\x in {{{}}} '
+                                 '\\draw (\\x cm,1.5pt) -- (\\x cm, -1.5pt);\n'.format(point_names))
 
     for idx, p in enumerate(points):
-        text_script = text_script + "\\node (Label) at ({},0.2)".format(p)+ "{\\tiny{" + "{}".format(idx) + "}};\n"
+        text_script = text_script + "\\node (Label) at ({},0.2){{\\tiny{{{}}}}};\n".format(p, idx)
 
     startY = -0.25
     deltaY = -0.15
@@ -87,23 +101,29 @@ def writeTex(names, ranks, cd, width=7, file_tex="output.tex"):
                 if x1 - previousX2 <= 0.1 and yaxe[prev] == y:
                     y = y + deltaY
             yaxe.append(y)
-        text_script = text_script + "\\draw[" + lineFormat + "]({},{}) -- ({},{});\n".format(x1, yaxe[idx], x2, yaxe[idx])
+        text_script = text_script + "\\draw[{}]({},{}) -- ({},{});\n".format(lineFormat, x1,
+                                                                             yaxe[idx], x2, yaxe[idx])
 
     base = 0.25 + 0.2 * len(yaxe)
     x1 = 0.3
 
     for idx in range(int(len(names) / 2)):
-        text_script = text_script + "\\node (Point) at ({}, 0)".format(ranks_normalized[idx]) + "{};" + "  \\node (Label) at ({},{})".format(leftLabelPosition, idx * x1 + base)
-        text_script = text_script + "{\\scriptsize{" + "{}".format(names_sorted[idx]) + "}}; \\draw (Point) |- (Label);\n"
+        text_script = text_script + ('\\node (Point) at ({}, 0){{}};'
+                                     '\\node (Label) at ({},{})'.format(ranks_normalized[idx],
+                                                                        leftLabelPosition, idx * x1 + base))
+        text_script = text_script + "{{\\scriptsize{{{}}}}}; \\draw (Point) |- (Label);\n".format(names_sorted[idx])
+
     for idx in range(len(names) - 1, int((len(names) / 2)) - 1, -1):
-        text_script = text_script + "\\node (Point) at ({}, 0)".format(ranks_normalized[idx]) + "{};" + "  \\node (Label) at ({},{})".format(rightLabelPosition, (len(names) - (idx + 1)) * x1 + base)
-        text_script = text_script + "{\\scriptsize{" + "{}".format(names_sorted[idx]) + "}}; \\draw (Point) |- (Label);\n"
+        text_script = text_script + ('\\node (Point) at ({}, 0){{}};'
+                                     '\\node (Label) at ({},{})'.format(ranks_normalized[idx],
+                                                                        rightLabelPosition,
+                                                                        (len(names) - (idx + 1)) * x1 + base))
+        text_script = text_script + "{{\\scriptsize{{{}}}}}; \\draw (Point) |- (Label);\n".format(names_sorted[idx])
 
     text_script = text_script + "\\end{tikzpicture}\n"
     text_script = text_script + "\\caption{Nemenyi post hoc test}\n"
-    text_script = text_script + "\\label{fig:nemeny}\n"
+    text_script = text_script + "\\label{fig:nemenyi}\n"
     text_script = text_script + "\\end{figure}\n"
 
-    text_file = open(file_tex, "w")
-    text_file.write(text_script)
-    text_file.close()
+    with open(output_file, 'w') as f:
+        f.write(text_script)

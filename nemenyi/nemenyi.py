@@ -1,3 +1,4 @@
+import argparse
 import math
 import os
 import sys
@@ -6,8 +7,6 @@ import numpy as np
 import pandas as pd
 from scipy.special import gammaln
 from scipy.stats import friedmanchisquare, norm, rankdata
-
-import argparse
 
 from to_latex import writeTex
 
@@ -29,16 +28,17 @@ output_file = args.output
 desc = args.descending
 ignore_first_column = args.ignore_first_column
 
-print("Input: {}".format(input_file))
-print("Output: {}".format(output_file))
-print("DEC? {}".format(desc))
-print("Skip? {}".format(ignore_first_column))
+print("input file: {}".format(input_file))
+print("output file: {}".format(output_file))
+print("descending? {}".format(desc))
+print("ignore first column? {}".format(ignore_first_column))
 
 data = pd.read_csv(input_file)
 if ignore_first_column:
-    data = data.drop(data.columns[0], axis=1)
+    data = data.iloc[:, 1:]
 
-nrow, ncol = data.shape
+columns = data.columns
+data = data.values
 
 qAlpha5pct = [1.960, 2.344, 2.569, 2.728, 2.850, 2.948, 3.031, 3.102, 3.164, 3.219, 3.268, 3.313, 3.354, 3.391,
               3.426, 3.458, 3.489, 3.517, 3.544, 3.569, 3.593, 3.616, 3.637, 3.658, 3.678, 3.696, 3.714, 3.732]
@@ -48,16 +48,16 @@ qAlpha10pct = [1.645, 2.052, 2.291, 2.460, 2.589, 2.693, 2.780, 2.855, 2.920, 2.
 
 
 dataAsRanks = np.full(data.shape, np.nan)
-for i in range(nrow):
-    dataAsRanks[i, :] = rankdata(data.iloc[i, :])
+for i, row in enumerate(data):
+    dataAsRanks[i, :] = rankdata(row)
     if desc:
         dataAsRanks[i, :] = len(dataAsRanks[i, :]) - dataAsRanks[i, :] + 1
 
+nrow, ncol = data.shape
 critDiff = math.sqrt((ncol * (ncol + 1.0)) / (6.0 * nrow))
 critDiff_5 = qAlpha5pct[ncol - 2] * critDiff
 critDiff_10 = qAlpha10pct[ncol - 2] * critDiff
 
 ranks = np.mean(dataAsRanks, 0)
 
-writeTex(data.columns, ranks, cd=critDiff_5, file_tex=output_file)
-
+writeTex(columns, ranks, critDiff_5, output_file)

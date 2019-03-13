@@ -14,7 +14,7 @@ The input file must be a .csv file, and the output is a .tex file. The [ASC|DEC]
 if you want to skip the first column of the dataset, sometimes used for identification of the sample.
 
 ```bash
-python nemenyi/nemenyi.py examples/input.csv examples/output.tex --ignore_first --descending
+python nemenyi/nemenyi.py examples/input.csv examples/output.tex --descending
 ```
 
 ## Requirements
