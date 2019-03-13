@@ -10,13 +10,13 @@ import os
 skip_first = False
 input_file = sys.argv[1]
 output_file = sys.argv[2]
-asc = (sys.argv[3] == "ASC")
+asc = (sys.argv[3] == "CRE")
 if(len(sys.argv) > 4):
     skip_first = True
 
 print ("Input: {}".format(input_file))
 print ("Output: {}".format(output_file))
-print ("ASC? {}".format(asc))
+print ("DEC? {}".format(asc))
 print ("Skip? {}".format(skip_first))
 
 data = pd.read_csv(input_file)
