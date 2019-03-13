@@ -8,7 +8,7 @@ import pandas as pd
 from scipy.special import gammaln
 from scipy.stats import friedmanchisquare, norm, rankdata
 
-from to_latex import writeTex
+from utils.to_latex import writeTex
 
 
 parser = argparse.ArgumentParser(description='Creates a critical distance diagram'
