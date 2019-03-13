@@ -26,12 +26,12 @@ args = parser.parse_args()
 
 input_file = args.input
 output_file = args.output
-asc = not args.descending
+desc = args.descending
 ignore_first_column = args.ignore_first_column
 
 print("Input: {}".format(input_file))
 print("Output: {}".format(output_file))
-print("DEC? {}".format(asc))
+print("DEC? {}".format(desc))
 print("Skip? {}".format(ignore_first_column))
 
 data = pd.read_csv(input_file)
@@ -48,10 +48,10 @@ qAlpha10pct = [1.645, 2.052, 2.291, 2.460, 2.589, 2.693, 2.780, 2.855, 2.920, 2.
 
 
 dataAsRanks = np.full(data.shape, np.nan)
-for i, row in enumerate(data):
-    dataAsRanks[i] = rankdata(row)
-    if asc:
-        dataAsRanks[i] = len(dataAsRanks[i]) - dataAsRanks[i, :] + 1
+for i in range(nrow):
+    dataAsRanks[i, :] = rankdata(data.iloc[i, :])
+    if desc:
+        dataAsRanks[i, :] = len(dataAsRanks[i, :]) - dataAsRanks[i, :] + 1
 
 critDiff = math.sqrt((ncol * (ncol + 1.0)) / (6.0 * nrow))
 critDiff_5 = qAlpha5pct[ncol - 2] * critDiff
