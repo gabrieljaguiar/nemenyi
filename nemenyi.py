@@ -17,7 +17,9 @@ parser = argparse.ArgumentParser(description='Creates a critical distance diagra
 parser.add_argument('input', type=str,
                     help='input file containing the performance metrics of each algorithm')
 parser.add_argument('output', type=str, help='.tex file')
-parser.add_argument('--descending', default=False,
+parser.add_argument('--h', default=False,
+                    help='higher values are better', action='store_true')
+parser.add_argument('--l', default=False,
                     help='lower values are better', action='store_true')
 parser.add_argument('--ignore_first_column', default=False,
                     help='ignores first column', action='store_true')
@@ -25,12 +27,17 @@ args = parser.parse_args()
 
 input_file = args.input
 output_file = args.output
-desc = args.descending
+lower_is_better = args.l
+higher_is_better = args.h
+
+assert (lower_is_better is True and higher_is_better is False) or \
+    (lower_is_better is False and higher_is_better is True)
+
 ignore_first_column = args.ignore_first_column
 
 print("input file: {}".format(input_file))
 print("output file: {}".format(output_file))
-print("descending? {}".format(desc))
+print("higher_is_better? {}".format(higher_is_better))
 print("ignore first column? {}".format(ignore_first_column))
 
 data = pd.read_csv(input_file)
@@ -50,7 +57,7 @@ qAlpha10pct = [1.645, 2.052, 2.291, 2.460, 2.589, 2.693, 2.780, 2.855, 2.920, 2.
 dataAsRanks = np.full(data.shape, np.nan)
 for i, row in enumerate(data):
     dataAsRanks[i, :] = rankdata(row)
-    if desc:
+    if higher_is_better:
         dataAsRanks[i, :] = len(dataAsRanks[i, :]) - dataAsRanks[i, :] + 1
 
 nrow, ncol = data.shape
