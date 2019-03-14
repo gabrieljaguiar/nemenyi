@@ -11,8 +11,8 @@ from scipy.stats import friedmanchisquare, norm, rankdata
 from utils.to_latex import writeTex
 
 
-parser = argparse.ArgumentParser(description='Creates a critical distance diagram'
-                                 'using the Friedman statistical test and the'
+parser = argparse.ArgumentParser(description='Creates a critical distance diagram '
+                                 'using the Friedman statistical test and the '
                                  'post-hoc Nemenyi analysis.')
 parser.add_argument('input', type=str,
                     help='input file containing the performance metrics of each algorithm')
