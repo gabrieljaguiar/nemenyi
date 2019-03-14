@@ -65,7 +65,7 @@ def writeTex(names, ranks, cd, output_file, width=7):
     text_script = "\\begin{figure} \\centering \\begin{tikzpicture}[xscale=2]\n"
 
     text_script = text_script + ('\\node (Label) at ({}, 0.7)'
-                                 '{{\\tiny{{CD = {}}}; % the label\n'.format(points[0] + normCd / 2, cd))
+                                 '{{\\tiny{{CD = {}}}}}; % the label\n'.format(points[0] + normCd / 2, cd))
 
     text_script = text_script + ('\\draw[{}] ({},0.5) -- ({},0.5);\n'.format(lineFormat, points[0], points[0] + normCd))
 
