@@ -110,14 +110,14 @@ def writeTex(names, ranks, cd, output_file, width=7):
     for idx in range(int(len(names) / 2)):
         text_script = text_script + ('\\node (Point) at ({}, 0){{}};'
                                      '\\node (Label) at ({},-{})'.format(ranks_normalized[idx],
-                                                                        leftLabelPosition, idx * x1 + base))
+                                                                         leftLabelPosition, idx * x1 + base))
         text_script = text_script + "{{\\scriptsize{{{}}}}}; \\draw (Point) |- (Label);\n".format(names_sorted[idx])
 
     for idx in range(len(names) - 1, int((len(names) / 2)) - 1, -1):
         text_script = text_script + ('\\node (Point) at ({}, 0){{}};'
                                      '\\node (Label) at ({},-{})'.format(ranks_normalized[idx],
-                                                                        rightLabelPosition,
-                                                                        (len(names) - (idx + 1)) * x1 + base))
+                                                                         rightLabelPosition,
+                                                                         (len(names) - (idx + 1)) * x1 + base))
         text_script = text_script + "{{\\scriptsize{{{}}}}}; \\draw (Point) |- (Label);\n".format(names_sorted[idx])
 
     text_script = text_script + "\\end{tikzpicture}\n"
