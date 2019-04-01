@@ -79,7 +79,7 @@ def writeTex(names, ranks, cd, output_file, caption, width=7):
     text_script = text_script + ('\\foreach \\x in {{{}}} '
                                  '\\draw (\\x cm,1.5pt) -- (\\x cm, -1.5pt);\n'.format(point_names))
 
-    for idx, p in enumerate(points):
+    for idx, p in enumerate(points, 1):
         text_script = text_script + "\\node (Label) at ({},0.2){{\\tiny{{{}}}}};\n".format(p, idx)
 
     startY = -0.25
