@@ -62,10 +62,10 @@ def writeTex(names, ranks, cd, output_file, caption, width=7):
     leftLabelPosition = margin
     rightLabelPosition = margin + len(ranks) * (width - 1.) / len(ranks)
 
-    text_script = "\\begin{figure} \\centering \\begin{tikzpicture}[xscale=2]\n"
+    text_script = "\\begin{figure}\n\\centering\n\\begin{tikzpicture}[xscale=2]\n"
 
     text_script = text_script + ('\\node (Label) at ({}, 0.7)'
-                                 '{{\\tiny{{CD = {}}}}}; % the label\n'.format(points[0] + normCd / 2, cd))
+                                 '{{\\tiny{{CD = {:.2f}}}}}; % the label\n'.format(points[0] + normCd / 2, cd))
 
     text_script = text_script + ('\\draw[{}] ({},0.5) -- ({},0.5);\n'.format(lineFormat, points[0], points[0] + normCd))
 
