@@ -10,11 +10,11 @@ git clone https://github.com/gabrielj12/nemenyi.git
 
 ## Instructions
 
-The input file must be a .csv file, and the output is a .tex file. The [ASC|DEC] parameter is used to define if the data is ascending or descending. The last parameter is optional,
+The input file must be a .csv file, and the output is a .tex file. The **--h or --l** parameter is used to define if the higher the better or the lower the better. The last parameter is optional,
 if you want to skip the first column of the dataset, sometimes used for identification of the sample.
 
 ```bash
-python nemenyi.py examples/input.csv examples/output.tex --descending
+python nemenyi.py examples/input.csv examples/output.tex --h
 ```
 
 ## Requirements
