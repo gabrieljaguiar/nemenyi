@@ -67,5 +67,5 @@ critDiff_10 = qAlpha10pct[ncol - 2] * critDiff
 
 ranks = np.mean(dataAsRanks, 0)
 
-caption = f'Nemenyi - {os.path.basename(input_file)}'
+caption = f'Nemenyi - {os.path.basename(input_file)}'.replace('_', ' ')
 writeTex(columns, ranks, critDiff_5, output_file, caption=caption)
