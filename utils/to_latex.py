@@ -40,7 +40,7 @@ def findInner(segments, ranks):
     return -1
 
 
-def writeTex(names, ranks, cd, output_file, width=7):
+def writeTex(names, ranks, cd, output_file, caption, width=7):
 
     names_sorted = [x for _, x in sorted(zip(ranks, names))]
     ranks_sorted = sorted(ranks)
@@ -121,7 +121,7 @@ def writeTex(names, ranks, cd, output_file, width=7):
         text_script = text_script + "{{\\scriptsize{{{}}}}}; \\draw (Point) |- (Label);\n".format(names_sorted[idx])
 
     text_script = text_script + "\\end{tikzpicture}\n"
-    text_script = text_script + "\\caption{Nemenyi post hoc test}\n"
+    text_script = text_script + f"\\caption{{{caption}}}\n"
     text_script = text_script + "\\label{fig:nemenyi}\n"
     text_script = text_script + "\\end{figure}\n"
 
