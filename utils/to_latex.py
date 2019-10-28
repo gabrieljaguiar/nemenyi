@@ -81,7 +81,7 @@ def writeTex(names, ranks, cd, output_file, caption, width=7):
         " -- (\\x, 0.6);\n \n".format(points[0], points[0] + normCd)
     )
 
-    text_script += "\\draw[gray, thick]({},0) -- ({},0); \n".format(
+    text_script += "\\draw[gray, thick]({},0) -- ({},0);\n".format(
         points[0], points[lastRank]
     )
 
