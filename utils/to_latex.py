@@ -96,28 +96,18 @@ def writeTex(names, ranks, cd, output_file, caption, width=7):
 
     startY = -0.25
     deltaY = -0.15
-    yaxe = []
     x1 = 0
 
     for idx in range(len(segments)):
         seg = segments[idx]
         x1 = ranks_normalized[seg[0]] - 0.05
         x2 = ranks_normalized[seg[1]] + 0.05
-        if idx == 0:
-            yaxe.append(startY)
-        else:
-            y = startY
-            for prev in range(idx - 1, -1, -1):
-                ant = segments[prev]
-                previousX2 = ranks_normalized[ant[1]] + 0.5
-                if x1 - previousX2 <= 0.1 and yaxe[prev] == y:
-                    y = y + deltaY
-            yaxe.append(y)
+        y = startY + deltaY * idx
         text_script += "\\draw[{}]({},{}) -- ({},{});\n".format(
-            lineFormat, x1, yaxe[idx], x2, yaxe[idx]
+            lineFormat, x1, y, x2, y
         )
 
-    base = 0.25 + 0.2 * len(yaxe)
+    base = 0.25 + 0.2 * len(segments)
     x1 = 0.3
 
     for idx in range(int(len(names) / 2)):
