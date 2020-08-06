@@ -4,7 +4,7 @@ Library to perform the Friedman statistical test and Nemenyi post-hoc analysis.
 
 ## Instalation
 ```bash
-git clone https://github.com/gabrielj12/nemenyi.git
+git clone https://github.com/gabrieljaguiar/nemenyi.git
 ```
 
 
